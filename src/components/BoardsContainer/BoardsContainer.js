@@ -2,6 +2,7 @@ import React from 'react';
 
 import authData from '../../helpers/data/authData';
 import boardsData from '../../helpers/data/boardsData';
+import Board from '../Board/Board';
 
 class BoardsContainer extends React.Component {
   // want state to live within boards container. Does not make sense to have it live in App.js
@@ -20,8 +21,12 @@ class BoardsContainer extends React.Component {
   }
 
   render() {
-    // the boards here are the boards from line 16
-    return (<div>{this.state.boards.map((board) => <h6>{board.name}</h6>)}</div>);
+    // the boards being mapped here are the boards from line 16
+    return (
+    <div>
+      {this.state.boards.map((board) => (<Board key={board.id} board={board}/>))}
+    </div>
+    );
   }
 }
 
