@@ -10,6 +10,12 @@ class Board extends React.Component {
   }
 
   // event to view single board
+  setSelectedBoardId = (e) => {
+    e.preventDefault();
+    // these functions come from props
+    const { setSingleBoard, board } = this.props;
+    setSingleBoard(board.id);
+  }
 
   render() {
     const { board } = this.props;
@@ -20,7 +26,7 @@ class Board extends React.Component {
           <div className="card-body">
             <h5 className="card-title">{board.name}</h5>
             <p className="card-text">{board.description}</p>
-            <button className="btn btn-primary">View Pins</button>
+            <button className="btn btn-primary" onClick={this.setSelectedBoardId}>View Pins</button>
           </div>
         </div>
       </div>
