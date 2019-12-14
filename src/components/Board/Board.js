@@ -1,14 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import boardShape from '../../helpers/propz/boardShape';
 
 class Board extends React.Component {
   static propTypes = {
     board: boardShape.boardShape,
+    setSingleBoard: PropTypes.func,
   }
+
+  // event to view single board
 
   render() {
     const { board } = this.props;
+
     return (
       <div className="Board col-4">
         <div className="card">
