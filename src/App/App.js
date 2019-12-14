@@ -64,9 +64,6 @@ class App extends React.Component {
             // it will only show once you click on one of the buttons, and then it will keep on showing. Pass selectedBoardId to singleBoard to use axio call
             (selectedBoardId) && (<SingleBoard selectedBoardId={selectedBoardId} setSingleBoard={this.setSingleBoard}/>)
           } */}
-          {
-            <Pins/>
-          }
       </div>
     );
   }

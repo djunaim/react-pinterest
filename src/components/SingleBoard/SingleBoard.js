@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import boardsData from '../../helpers/data/boardsData';
+import Pins from '../Pins/Pins';
 
 class SingleBoard extends React.Component {
   static propTypes = {
@@ -11,6 +12,7 @@ class SingleBoard extends React.Component {
 
   state = {
     board: {},
+    pins: [],
   }
 
   componentDidMount() {
@@ -29,7 +31,7 @@ class SingleBoard extends React.Component {
   }
 
   render() {
-    const { board } = this.state;
+    const { board, pins } = this.state;
 
     return (
       <div>
@@ -38,7 +40,7 @@ class SingleBoard extends React.Component {
           <h2>{board.name}</h2>
           <p>{board.description}</p>
           <div className="d-flex flex-wrap">
-            {/* all pins */}
+            {<Pins pins={pins}/>}
           </div>
         </div>
       </div>
