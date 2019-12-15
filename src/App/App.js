@@ -6,6 +6,7 @@ import Auth from '../components/Auth/Auth';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
 import BoardsContainer from '../components/BoardsContainer/BoardsContainer';
 import SingleBoard from '../components/SingleBoard/SingleBoard';
+import Pins from '../components/Pins/Pins';
 
 import './App.scss';
 
