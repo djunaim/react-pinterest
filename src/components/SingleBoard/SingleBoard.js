@@ -16,17 +16,30 @@ class SingleBoard extends React.Component {
     pins: [],
   }
 
+  getPinData = (selectedBoardId) => {
+    pinsData.getPinsByBoardId(selectedBoardId).then((pins) => {
+      this.setState({ pins });
+    })
+      .catch((errorFromGetPins) => console.error({ errorFromGetPins }));
+  }
+
   componentDidMount() {
     const { selectedBoardId } = this.props;
     boardsData.getSingleBoard(selectedBoardId)
       .then((request) => {
         this.setState({ board: request.data });
-        pinsData.getPinsByBoardId(selectedBoardId).then((pins) => {
-          this.setState({ pins });
-        })
-          .catch((errorFromGetPins) => console.error({ errorFromGetPins }));
+        this.getPinData(selectedBoardId);
       })
       .catch((errorfromGetSingleBoard) => console.error(errorfromGetSingleBoard));
+  }
+
+  deleteSinglePin = (pinId) => {
+    const { selectedBoardId } = this.props;
+    pinsData.deletePins(pinId)
+      .then(() => {
+        this.getPinData(selectedBoardId);
+      })
+      .catch((error) => console.error(error));
   }
 
   removeSelectedBoardID = (e) => {
@@ -44,8 +57,10 @@ class SingleBoard extends React.Component {
         <div className="SingleBoard col-8 offset-2">
           <h2>{board.name}</h2>
           <p>{board.description}</p>
-          <div className="d-flex flex-wrap">
-            { pins.map((pin) => <Pins key={pin.id} pin={pin}/>) }
+          <div className="d-flex flex-wrap container">
+            <div className="row">
+              { pins.map((pin) => <Pins key={pin.id} pin={pin} deleteSinglePin={this.deleteSinglePin} />) }
+            </div>
           </div>
         </div>
       </div>
