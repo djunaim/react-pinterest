@@ -53,7 +53,6 @@ class App extends React.Component {
       <div className="App">
         {/* pass authed to Navbar to show buttons depending on log in state since it lives in App.js */}
           <MyNavbar authed={authed}/>
-          <button className="btn btn-danger">Freedom</button>
           {/* if user authenticated, load board */}
           {/* else show login button */}
           {
