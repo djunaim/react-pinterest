@@ -9,6 +9,7 @@ class PinForm extends React.Component {
     selectedBoardId: PropTypes.string,
   }
 
+  // info that needs to be typed in form
   state = {
     pinTitle: '',
     pinImageUrl: '',
