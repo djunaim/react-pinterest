@@ -21,7 +21,7 @@ class Board extends React.Component {
     const { board } = this.props;
 
     return (
-      <div className="Board col-4">
+      <div className="Board col-md-4">
         <div className="card">
           <div className="card-body">
             <h5 className="card-title">{board.name}</h5>

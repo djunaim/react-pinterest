@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import authData from '../../helpers/data/authData';
 import boardsData from '../../helpers/data/boardsData';
 import Board from '../Board/Board';
+import BoardForm from '../BoardForm/BoardForm';
 
 class BoardsContainer extends React.Component {
   static propTypes = {
@@ -15,8 +16,8 @@ class BoardsContainer extends React.Component {
     boards: [],
   }
 
-  // as soon as component called, it runs
-  componentDidMount() {
+  // making the getting boards function reusable
+  getBoards = () => {
     boardsData.getBoardsByUid(authData.getUid())
       .then((boards) => {
         // resetting boards from line 9 with our data
@@ -25,13 +26,31 @@ class BoardsContainer extends React.Component {
       .catch((errorFromBoardsContainer) => console.error(errorFromBoardsContainer));
   }
 
+  // as soon as component called, it runs on load
+  componentDidMount() {
+    this.getBoards();
+  }
+
+  addNewBoard = (newBoard) => {
+    boardsData.addBoard(newBoard)
+      .then(() => {
+        this.getBoards();
+      })
+      .catch((error) => console.error(error));
+  }
+
   render() {
     const { setSingleBoard } = this.props;
 
-    // the boards being mapped here are the boards from line 16
     return (
     <div>
-      {this.state.boards.map((board) => (<Board key={board.id} board={board} setSingleBoard={setSingleBoard}/>))}
+      <BoardForm addNewBoard={this.addNewBoard}/>
+      <div className="container">
+        <div className="row">
+          {/* the boards being mapped here are the boards from line 23 */}
+          {this.state.boards.map((board) => (<Board key={board.id} board={board} setSingleBoard={setSingleBoard} />))}
+        </div>
+      </div>
     </div>
     );
   }
