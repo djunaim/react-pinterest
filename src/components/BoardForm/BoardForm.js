@@ -2,16 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import authData from '../../helpers/data/authData';
+import boardShape from '../../helpers/propz/boardShape';
 
 class BoardForm extends React.Component {
   static propTypes = {
     addNewBoard: PropTypes.func,
+    boardToEdit: boardShape.boardShape,
+    editMode: PropTypes.bool,
+    updateBoard: PropTypes.func,
   }
 
   // need to save form information in state and once sent and trying to retrieve info back, will need to get it back from state
   state = {
     boardName: '',
     boardDescription: '',
+  }
+
+  // if in edit mode, get the state and have it on page load
+  componentDidMount() {
+    const { boardToEdit, editMode } = this.props;
+    if (editMode) {
+      this.setState({ boardName: boardToEdit.name, boardDescription: boardToEdit.description });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if ((prevProps.boardToEdit.id !== this.props.boardToEdit.id) && this.props.editMode) {
+      this.setState({ boardName: this.props.boardToEdit.name, boardDescription: this.props.boardToEdit.description });
+    }
   }
 
   addBoardEvent= (e) => {
@@ -27,6 +45,17 @@ class BoardForm extends React.Component {
     this.setState({ boardName: '', boardDescription: '' });
   }
 
+  updateBoardEvent = (e) => {
+    e.preventDefault();
+    const { updateBoard, boardToEdit } = this.props;
+    const updatedBoard = {
+      name: this.state.boardName,
+      description: this.state.boardDescription,
+      uid: boardToEdit.uid,
+    };
+    updateBoard(boardToEdit.id, updatedBoard);
+  }
+
   // for each different input field. Need to write function
   nameChange = (e) => {
     e.preventDefault();
@@ -39,6 +68,7 @@ class BoardForm extends React.Component {
   }
 
   render() {
+    const { editMode } = this.props;
     return (
       <div>
         <form className='col-6 offset-3 BoardForm'>
@@ -64,8 +94,11 @@ class BoardForm extends React.Component {
               onChange={this.descriptionChange}
             />
           </div>
-          <button className="btn btn-secondary" onClick={this.addBoardEvent}>Save Board</button>
-        </form>
+          {
+            (!editMode) ? (<button className="btn btn-secondary" onClick={this.addBoardEvent}>Save Board</button>)
+              : (<button className="btn btn-primary" onClick={this.updateBoardEvent}>Update Board</button>)
+          }
+          </form>
       </div>
     );
   }
